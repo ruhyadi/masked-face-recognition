@@ -30,15 +30,14 @@ parser.add_argument('--model', type=str, default=ROOT / 'model/facenet_keras.h5'
 parser.add_argument('--embedding_data', type=str, default=ROOT / 'database/face_embedding.npz', help='faces output name')
 parser.add_argument('--vis', action='store_true', default=False, help='Visualization')
 parser.add_argument('--write', action='store_true', default=False, help='Write Video Output')
-parser.add_argument('--output', type=str, default=ROOT / 'video/output.avi', help='output name')
-
+parser.add_argument('--output', type=str, default=ROOT / 'video/output.mp4', help='output name')
 
 opt = parser.parse_args()
 
 # load face detector
 detector = MTCNN()
 # load the facenet model
-embedd_model = load_model('/home/didi/Repository/Nodeflux/masked-face-recognition/model/facenet_keras.h5')
+embedd_model = load_model(opt.model)
 print('Loaded Model')
 
 # load face embeddings
@@ -70,14 +69,19 @@ frame_width = int(cap.get(3))
 frame_height = int(cap.get(4))
 size = (frame_width, frame_height)
 
-output = cv2.VideoWriter(opt.output, cv2.VideoWriter_fourcc(*'MJPG'), 15, size)
+fourcc = cv2.VideoWriter_fourcc(*'MP4V')
+output = cv2.VideoWriter(opt.output, fourcc, 15, size)
 
 while(cap.isOpened()):
     ret, frame = cap.read()
 
     if ret==True:
         results = detector.detect_faces(frame)
-        x1, y1, width, height = results[0]['box']
+
+        try:
+            x1, y1, width, height = results[0]['box']
+        except:
+            x1, y1, width, height = 0, 0, 1, 1
 
         # bug fix
         x1, y1 = abs(x1), abs(y1)
@@ -96,8 +100,8 @@ while(cap.isOpened()):
 
         # get name
         class_index = yhat_class[0]
-        class_probability = yhat_prob[0,class_index] * 100
-        predict_names = out_encoder.inverse_transform(yhat_class)
+        class_probability = round(yhat_prob[0,class_index] * 100, 2)
+        predict_names = out_encoder.inverse_transform(yhat_class)[0]
 
         # draw bbox and name
         cv2.rectangle(frame, (x1,y1), (x2,y2), (0, 255, 0), 2)

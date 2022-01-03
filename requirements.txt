@@ -4,3 +4,4 @@ matplotlib
 Pillow
 keras
 scikit-learn
+tensorflow
