@@ -1,0 +1,6 @@
+numpy
+mtcnn
+matplotlib
+Pillow
+keras
+scikit-learn
