@@ -1,7 +1,9 @@
+# pytorch
+torch
+torchvision
+
+# package
 numpy
-mtcnn
-matplotlib
 Pillow
-keras
-scikit-learn
-tensorflow
+facenet-pytorch
+opencv-python==4.4.*
