@@ -10,3 +10,7 @@
 
 /src/*.png
 /src/*.jpg
+
+/data
+
+*.ipynb

@@ -40,6 +40,17 @@ def extract_face(filename, required_size=(160, 160)):
 
     return faces
 
+def load_faces(dir):
+    faces = list()
+
+    faces = [extract_face(path) for path in ]
+
+
+    for filename in os.listdir(dir):
+        
+        path = os.path.join(dir, filename)
+
+
 if __name__ == "__main__":
     img_path = '/home/didi/Repository/masked-face-recognition/src/face.png'
 
@@ -47,31 +58,3 @@ if __name__ == "__main__":
     for face in faces:
         cv2.imshow('img', face)
         cv2.waitKey(0)
-
-    # img = cv2.imread(img_path)
-    # x1 = int(box[0][0])
-    # # img = img[box.tolist()]
-    # cv2.imshow('img', img)
-    # cv2.waitKey(0)
-
-    # faces = extract_face(img_path)
-    # for face in faces:
-    #     print(face.shape)
-    #     cv2.imshow('img', face)
-    #     cv2.waitKey(0)
-
-
-    # faces = extract_face(img_path)
-    # for face in faces:
-    #     face = cv2.cvtColor(face.permute(1, 2, 0).numpy(), cv2.COLOR_BGR2RGB)
-    #     cv2.imshow('face', face)
-    #     cv2.waitKey(0)
-
-    # transforms = transforms.ToPILImage()
-
-    # res = extract_face(img_path)
-    # print(res.shape)
-    # res_arr = cv2.cvtColor(res.permute(1, 2, 0).numpy(), cv2.COLOR_BGR2RGB)
-    # print(res_arr.shape)
-    # cv2.imshow('image', res_arr)
-    # cv2.waitKey(0)
