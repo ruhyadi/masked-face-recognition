@@ -100,7 +100,7 @@ def detect_face(frame):
     else:
         return None
 
-def balancing_dataset(class_dir):
+def balancing_dataset(class_dir, dataset_dir, valsize):
     IMAGES = [img for img in os.listdir(class_dir) if img.endswith(('png', 'jpg', 'jpeg'))]
     # len images
     key = ['Masked', 'Normal']
@@ -117,9 +117,21 @@ def balancing_dataset(class_dir):
             fn = glob.glob(os.path.join(class_dir, 'Normal_*')) # random
             os.remove(fn[0])
             len_normal = len_normal - 1
-        
+
+def train_val_split(dataset_dir, class_dir, valsize):
+    try:
+        os.makedirs(dataset_dir, 'Train')
+        os.makedirs(dataset_dir, 'Val')
+    except:
+        pass
+    IMAGES = [img for img in os.listdir(class_dir) if img.endswith(('png', 'jpg', 'jpeg'))]
+    # len images
+    key = ['Masked', 'Normal']
+    len_masked = len([img for img in IMAGES if key[0] in img])
+    len_normal = len([img for img in IMAGES if key[1] in img])
+
 # testing
 if __name__ == "__main__":
     dataset_dir = '/home/didi/Repository/masked-face-recognition/data'
-    fps = 5
+    fps = 2
     extract_face(dataset_dir, fps, imshow=False, rotate=True)
